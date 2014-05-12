@@ -1,0 +1,34 @@
+<html>
+<head><title>Movie Search</title><head>
+<style type="text/css">
+h1 { text-align:center; font-weight:bolder;}
+table {  text-align:center;margin-left: auto;
+            margin-right: auto; line-height:300%;}
+</style>
+
+<script src="media.js" type="text/javascript" language="javascript">
+</script>
+
+<body>
+<h1>Movie Search</h1>
+
+<table border="1" cellpadding="10" width="500">
+<tr>
+<td>
+<form method="post" id="movie">
+Title:
+<input type="text" id="title" /><br />
+Media type:
+<select id="select">
+<option selected>All Types<option>Feature Film<option>TV Series<option>Video Game</option>
+</select><br />
+<button onclick="load()">search</button>
+</td>
+</tr>
+</table>
+</form>
+<p>
+</p>
+<div id="updatearea"></div>
+</body>
+</html>
