@@ -1,0 +1,101 @@
+<html>
+<head><title>Movie Search</title><head>
+<style type="text/css">
+h1 { text-align:center; font-weight:bolder;}
+table {  text-align:center;margin-left: auto;
+            margin-right: auto; line-height:300%;}
+</style>
+
+<script type="text/javascript" language="javascript">
+function load()
+{
+	var t1=document.getElementById("title").value;
+	var t21=document.getElementById("select");
+	var t2=t21.options[t21.selectedIndex].value;
+	var url="http://cs-server.usc.edu:20458/servlets-examples/servlet/IMDBServlet?title="+t1+"&select="+t2;
+	xmlhttp=null;
+	if (window.XMLHttpRequest)
+	{
+		xmlhttp=new XMLHttpRequest();
+	}
+	else if (window.ActiveXObject)
+	{
+		try{xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");}
+		catch(e){}
+	}
+	if (xmlhttp!=null)
+	{
+		xmlhttp.onreadystatechange=callback;
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send(null);
+		xmlhttp.setRequestHeader("Connection","Close");
+		xmlhttp.setRequestHeader("Method","GET"+url+"HTTP/1.1");
+	}
+	else
+	{
+		alert("Your browser does not support XMLHTTP");
+	}
+}
+
+function callback()
+{
+	if(xmlhttp.readyState==4)
+	{
+		if(xmlhttp.status==200)
+		{
+			
+var html;
+			var doc = eval("("+xmlhttp.responseText+")");
+			if(doc.results.result.length>0) 
+			{
+			 html="<table border='2'><tr><th>Image</th><th>Title</th><th>Year</th><th>Director</th><th>Rating(10)</th><th>Details</th><th>Post to Facebook</th></tr>";			
+			for(i=0;i<doc.results.result.length;i++)
+			{
+				
+				html+="<tr>";
+				html+="<td><img src=\""+doc.results.result[i].cover+"\"></td>";
+				html+="<td>"+doc.results.result[i].title+"</td>";
+				html+="<td>"+doc.results.result[i].year+"</td>";
+				html+="<td>"+doc.results.result[i].director+"</td>";
+				html+="<td>"+doc.results.result[i].rating+"</td>";
+				html+="<td><a href=\""+doc.results.result[i].details+"\" target='_blank'>"+'detail'+"</td>";
+				html+="<td><a href=\"http://www.facebook.com/dialog/feed?app_id=424485474273580&picture="+doc.results.result[i].cover+"&name="+escape(doc.results.result[i].title)+"&caption="+escape("I am interested in this movie/series/game")+"&description="+escape(doc.results.result[i].title)+escape(" released in ")+escape(doc.results.result[i].year)+escape(" has a rating of ")+doc.results.result[i].rating+"&properties="+escape('{"Look at user reviews ":{"text":"here","href":"http://www.facebook.com/"}}')+"&redirect_uri=http://cs-server.usc.edu:20458/servlets-examples/search.html"+"\" target='_blank'><img src=\"http://www.ames.net.au/files/image/facebook_logo%5B1%5D.png\" height=\"54\" width=\"74\"></a></td><tr>";
+			}
+			html+="</table>";
+			}
+			else{html="No Result";}
+			document.getElementById("updatearea").innerHTML=html;
+		}
+		else
+		{
+			alert("There was a problem with the request " + xmlhttp.status);
+		}
+	}
+
+}
+
+</script>
+
+<body>
+<h1>Movie Search</h1>
+
+<table border="1" cellpadding="10" width="500">
+<tr>
+<td>
+<form method="post" id="movie">
+Title:
+<input type="text" id="title" /><br />
+Media type:
+<select id="select">
+<option selected>All Types<option>Feature Film<option>TV Series<option>Video Game</option>
+</select><br />
+<input type="button" value="search" onClick="load()" />
+</td>
+</tr>
+</table>
+</form>
+<p>
+</p>
+<div id="updatearea"></div>
+</body>
+</html>
