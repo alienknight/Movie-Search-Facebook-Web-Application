@@ -11,7 +11,7 @@ public class IMDB_Servlet extends HttpServlet {
 			String title = request.getParameter("title");
 			String select = request.getParameter("select");
 	  
-			String urlstring = "http://cs-server.usc.edu:20457/movie_get.php?title="+title+"&title_type="+select;
+			String urlstring = "http://cs-server.usc.edu:****/movie_get.php?title="+title+"&title_type="+select;
 
 			URL url = new URL(urlstring);
 			URLConnection urlConnection = url.openConnection();
